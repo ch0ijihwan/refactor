@@ -11,6 +11,7 @@ import refactor.view.DisplayMode;
 import refactor.view.input.Input;
 import refactor.view.output.Output;
 
+import static refactor.model.domain.exchanging.generator.ExchangeType.*;
 import static refactor.view.DisplayMode.WON_TO_DOLLAR_TO_BINARY;
 import static refactor.view.DisplayMode.WON_TO_DOLLAR_TO_HEX;
 
@@ -37,17 +38,17 @@ public class SimpleCalculator {
 
     private Integer exchangeByDisplayMode(final Integer result, final DisplayMode displayMode) {
         MoneyExchangingMachine moneyExchangingMachine;
-        ExchangeType exchangeType = getExchangeType(displayMode);
+        ExchangeType exchangeType = judgeExchangeType(displayMode);
         moneyExchangingMachine = ExchangeMachineGenerator.getMoneyExchangingMachineBy(exchangeType);
         return moneyExchangingMachine.exchange(result);
     }
 
-    public ExchangeType getExchangeType(final DisplayMode displayMode) {
+    public ExchangeType judgeExchangeType(final DisplayMode displayMode) {
         if (displayMode == DisplayMode.WON_TO_DECIMAL || displayMode == DisplayMode.WON_TO_BINARY || displayMode == DisplayMode.WON_TO_HEX) {
-            return ExchangeType.TO_WON;
+            return TO_WON;
         }
         if (displayMode == DisplayMode.WON_TO_DOLLAR_TO_DECIMAL || displayMode == WON_TO_DOLLAR_TO_BINARY || displayMode == WON_TO_DOLLAR_TO_HEX) {
-            return ExchangeType.TO_DOLLAR;
+            return TO_DOLLAR;
         }
         throw new IllegalStateException("잘못된 접근 입니다.");
     }
